@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Code Executor Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .input-section {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        .button-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .clear-btn {
+            background-color: #f44336;
+        }
+        .clear-btn:hover {
+            background-color: #da190b;
+        }
+        .output-section {
+            margin-top: 20px;
+        }
+        .output {
+            background-color: #f8f8f8;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        .error {
+            color: #d32f2f;
+            background-color: #ffebee;
+            border-color: #f44336;
+        }
+        .success {
+            color: #2e7d32;
+            background-color: #e8f5e8;
+            border-color: #4caf50;
+        }
+        .examples {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .example {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 3px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+        .example:hover {
+            background-color: #f9f9f9;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .example-code {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #666;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 JavaScript Code Executor Demo</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Warning:</strong> This demo uses <code>new Function()</code> to execute arbitrary JavaScript code. 
+            In a real application, this would be a security risk. Use only for educational purposes!
+        </div>
+
+        <div class="input-section">
+            <label for="codeInput">Enter JavaScript Code:</label>
+            <textarea id="codeInput" placeholder="// Enter your JavaScript code here
+// Example:
+return 'Hello, World!';
+
+// Or try:
+const x = 5;
+const y = 10;
+return x + y;"></textarea>
+        </div>
+
+        <div class="button-section">
+            <button onclick="executeCode()">Execute Code</button>
+            <button onclick="clearAll()" class="clear-btn">Clear All</button>
+        </div>
+
+        <div class="output-section">
+            <label>Output:</label>
+            <div id="output" class="output">Ready to execute JavaScript code...</div>
+        </div>
+
+        <div class="examples">
+            <h3>📝 Example Code Snippets (Click to try):</h3>
+            
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">Basic Math</div>
+                <div class="example-code">const a = 10, b = 20; return a + b;</div>
+            </div>
+
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">String Manipulation</div>
+                <div class="example-code">const name = 'World'; return `Hello, ${name}!`.toUpperCase();</div>
+            </div>
+
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">Array Operations</div>
+                <div class="example-code">const arr = [1, 2, 3, 4, 5]; return arr.map(x => x * 2).filter(x => x > 5);</div>
+            </div>
+
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">Object Creation</div>
+                <div class="example-code">const person = { name: 'Alice', age: 30 }; person.greeting = `Hi, I'm ${person.name}`; return person;</div>
+            </div>
+
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">Function Definition</div>
+                <div class="example-code">function fibonacci(n) { return n <= 1 ? n : fibonacci(n-1) + fibonacci(n-2); } return fibonacci(10);</div>
+            </div>
+
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">Date and Time</div>
+                <div class="example-code">const now = new Date(); return { timestamp: now.getTime(), readable: now.toLocaleString() };</div>
+            </div>
+
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">JSON Operations</div>
+                <div class="example-code">const data = { users: ['Alice', 'Bob', 'Charlie'] }; return JSON.stringify(data, null, 2);</div>
+            </div>
+
+            <div class="example" onclick="loadExample(this)">
+                <div class="example-title">Error Handling</div>
+                <div class="example-code">try { const result = 10 / 0; return result === Infinity ? 'Division by zero results in Infinity' : result; } catch(e) { return 'Error: ' + e.message; }</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function executeCode() {
+            const codeInput = document.getElementById('codeInput');
+            const output = document.getElementById('output');
+            const code = codeInput.value.trim();
+
+            if (!code) {
+                output.textContent = 'Please enter some JavaScript code to execute.';
+                output.className = 'output';
+                return;
+            }
+
+            try {
+                // Create a new function with the user's code
+                // The function body is wrapped to allow both expressions and statements
+                const userFunction = new Function(code);
+                
+                // Execute the function and capture the result
+                const result = userFunction();
+                
+                // Display the result
+                let displayResult;
+                if (result === undefined) {
+                    displayResult = 'undefined';
+                } else if (result === null) {
+                    displayResult = 'null';
+                } else if (typeof result === 'object') {
+                    displayResult = JSON.stringify(result, null, 2);
+                } else if (typeof result === 'function') {
+                    displayResult = result.toString();
+                } else {
+                    displayResult = String(result);
+                }
+
+                output.textContent = `Result: ${displayResult}`;
+                output.className = 'output success';
+
+            } catch (error) {
+                output.textContent = `Error: ${error.message}\n\nStack trace:\n${error.stack}`;
+                output.className = 'output error';
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('codeInput').value = '';
+            document.getElementById('output').textContent = 'Ready to execute JavaScript code...';
+            document.getElementById('output').className = 'output';
+        }
+
+        function loadExample(element) {
+            const codeExample = element.querySelector('.example-code').textContent;
+            document.getElementById('codeInput').value = codeExample;
+            
+            // Highlight the selected example briefly
+            element.style.backgroundColor = '#e3f2fd';
+            setTimeout(() => {
+                element.style.backgroundColor = 'white';
+            }, 300);
+        }
+
+        // Allow Enter key to execute (Ctrl+Enter)
+        document.getElementById('codeInput').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                executeCode();
+            }
+        });
+
+        // Add some initial helpful text
+        document.addEventListener('DOMContentLoaded', function() {
+            const output = document.getElementById('output');
+            output.innerHTML = `Ready to execute JavaScript code...
+
+💡 Tips:
+• Use 'return' to output a value
+• Press Ctrl+Enter to execute quickly
+• Click on examples below to try them
+• The code runs in a sandboxed function context`;
+        });
+    </script>
+</body>
+</html>

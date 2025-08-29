@@ -1,0 +1,9 @@
+🚀 JavaScript Code Executor Demo Server
+📡 Serving at http://localhost:51796
+📁 Serving files from: /workspace
+🌐 Access the demo at: http://localhost:51796
+⏹️  Press Ctrl+C to stop the server
+127.0.0.1 - - [29/Aug/2025 15:59:16] "GET / HTTP/1.1" 200 -
+3.83.200.219 - - [29/Aug/2025 15:59:49] "GET / HTTP/1.1" 200 -
+3.83.200.219 - - [29/Aug/2025 15:59:49] code 404, message File not found
+3.83.200.219 - - [29/Aug/2025 15:59:49] "GET /favicon.ico HTTP/1.1" 404 -
